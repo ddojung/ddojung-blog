@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: silver;
+  @nest & i {
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 0.5rem;
+    color: #333;
+    @nest &:hover {
+      /* background: #777; */
+      color: #eee;
+    }
+  }
+}
+
+.active {
+  @nest & i {
+    color: #eee;
+  }
+}

@@ -1,0 +1,28 @@
+.contentTitleBox {
+  width: 100%;
+  background: #f7f7f7;
+  height: 1.6rem;
+}
+
+.contentBodyBox {
+  width: 100%;
+  background: white;
+}
+
+.titleBox {
+  display: inline-block;
+  background: white;
+  padding: 0.2rem 3rem 0.2rem 1rem;
+}
+
+.documentImg {
+  width: 0.9rem;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 0.1rem;
+}
+
+.documentTitle {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+}
