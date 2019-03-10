@@ -8,8 +8,8 @@ import { MenuStore } from '../../../stores/MenuStore';
 enum EN_ICON_MENU_LIST {
   HOME = 'home',
   CODE = 'code',
-  FACE = 'face',
   LOCAL_DINING = 'local_dining',
+  FACE = 'face',
 }
 
 const iconEle = (value: number) => {

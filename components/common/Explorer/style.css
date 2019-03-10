@@ -18,3 +18,21 @@
     font-size: 0.6rem;
   }
 }
+
+.documentImg {
+  width: 0.9rem;
+  margin-right: 0.5rem;
+  position: relative;
+  top: 0.1rem;
+}
+
+.commonPadding {
+  padding: 0 1rem;
+}
+
+.contentName {
+  cursor: pointer;
+  @nest &:hover {
+    color: #aaa;
+  }
+}
