@@ -2,13 +2,22 @@ import * as React from 'react';
 
 import styles from './style.css';
 import Icon from '../Icon/Icon';
+import { observer } from 'mobx-react-lite';
 import { MenuStore } from '../../../stores/MenuStore';
-import { observer } from 'mobx-react';
+import { AuthStore } from '../../../stores/AuthStore';
 
-const Explorer: React.SFC = () => {
+function changeEditMode() {
+  MenuStore.EditMode = true;
+}
+
+const Explorer: React.FC = () => {
+  const authStore = React.useContext(AuthStore);
+
   return (
     <div className={styles.container}>
-      <div className={styles.explorerTitle}>EXPLORER</div>
+      <div className={styles.explorerTitle}>
+        EXPLORER {authStore.IsAdmin && <button onClick={changeEditMode}>edit</button>}
+      </div>
       <div className={styles.ddojungTitle}>
         <Icon type="signal_cellular_4_bar" /> DDOJUNG-BLOG
       </div>

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Icon from './Icon';
 import styles from './style.css';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { MenuStore } from '../../../stores/MenuStore';
 
 enum EN_ICON_MENU_LIST {

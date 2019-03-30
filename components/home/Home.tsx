@@ -1,5 +1,11 @@
 import * as React from 'react';
+
 import styles from './style.css';
+import dynamic from 'next/dynamic';
+import { MenuStore } from '../../stores/MenuStore';
+import { observer } from 'mobx-react-lite';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 function moveBlogRepasitory(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
   e.preventDefault();
@@ -7,6 +13,14 @@ function moveBlogRepasitory(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
 }
 
 const Home: React.SFC = () => {
+  const editor = (() => {
+    if (MenuStore.Editable) {
+      return <ReactQuill theme="snow" />;
+    }
+
+    return <></>;
+  })();
+
   return (
     <>
       <div className={styles.welcomeTextBox}>
@@ -22,8 +36,9 @@ const Home: React.SFC = () => {
           onClick={moveBlogRepasitory}
         />
       </div>
+      {editor}
     </>
   );
 };
 
-export default Home;
+export default observer(Home);

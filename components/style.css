@@ -1,0 +1,13 @@
+@import 'react-quill/dist/quill.snow.css';
+@import 'react-quill/dist/quill.bubble.css';
+@import 'react-quill/dist/quill.core.css';
+
+html,
+body,
+body > div:first-child {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
