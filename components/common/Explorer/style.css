@@ -2,7 +2,7 @@
   font-size: 0.8rem;
   color: #777;
   background: #f7f7f7;
-  min-width: 12rem;
+  min-width: 15rem;
 }
 
 .explorerTitle {
@@ -31,7 +31,6 @@
 }
 
 .contentName {
-  cursor: pointer;
   @nest &:hover {
     color: #aaa;
   }

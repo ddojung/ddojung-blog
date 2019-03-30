@@ -32,7 +32,7 @@ const iconEle = (value: number) => {
   });
 };
 
-const IconMenu: React.SFC<{ locateIdx?: number }> = ({ locateIdx }) => {
+const IconMenu: React.FC<{ locateIdx?: number }> = ({ locateIdx }) => {
   return <div className={styles.container}>{iconEle(locateIdx || MenuStore.Location)}</div>;
 };
 

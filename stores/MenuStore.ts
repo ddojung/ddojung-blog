@@ -1,8 +1,9 @@
-import { observable, action } from 'mobx';
+import { IMenuTitleForType } from './../models/interface/IMenuTitle';
+import { observable } from 'mobx';
 
 class MenuStoreType {
   @observable private location: number = 0;
-  @observable public editable: boolean = false;
+  @observable private menuTitle: IMenuTitleForType | null = null;
 
   constructor() {}
 
@@ -13,12 +14,11 @@ class MenuStoreType {
     this.location = value;
   }
 
-  get Editable() {
-    return this.editable;
+  get MenuTitle() {
+    return this.menuTitle;
   }
-  set EditMode(value: boolean) {
-    console.log(value);
-    this.editable = value;
+  set MenuTitle(value: IMenuTitleForType | null) {
+    this.menuTitle = value;
   }
 }
 

@@ -35,16 +35,12 @@ class AuthStoreType {
       providerId: user.providerId,
       uid: user.uid,
     };
-
-    console.log(this.userInfo);
   }
 
   @autobind
   @action
   async signIn() {
     const result = await googleAuth.signIn();
-
-    console.log(result);
 
     if (result === null) {
       return false;

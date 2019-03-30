@@ -11,7 +11,7 @@ interface IContainerProps {
   contentTitle?: string;
 }
 
-const Container: React.SFC<IContainerProps> = ({ title, contentTitle, children }) => {
+const Container: React.FC<IContainerProps> = ({ title, contentTitle, children }) => {
   return (
     <>
       <Header title={title} icon={true} />

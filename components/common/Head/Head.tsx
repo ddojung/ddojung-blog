@@ -6,7 +6,7 @@ interface IHeadProps {
   icon?: boolean;
 }
 
-const DdHead: React.SFC<IHeadProps> = ({ title, icon }) => {
+const DdHead: React.FC<IHeadProps> = ({ title, icon }) => {
   return (
     <Head>
       <title>{title + ' - ddojung blog'}</title>

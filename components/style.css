@@ -11,3 +11,8 @@ body > div:first-child {
 body {
   margin: 0;
 }
+
+body a {
+  color: inherit;
+  text-decoration: inherit;
+}

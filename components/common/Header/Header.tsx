@@ -26,22 +26,23 @@ const Header: React.FC<IHeaderProps> = ({ title, icon }) => {
     return <button onClick={authStore.signOut}>Sign Out</button>;
   })();
 
-  console.log(authStore.UserInfo);
-
   return (
     <div>
       <DdHead title={title} icon={icon} />
       <div className={styles.headerContainer}>
-        <div className={styles.btnBox}>
+        <div
+          className={styles.btnBox}
+          onClick={() => {
+            location.href = '/';
+          }}
+        >
           <button className={styles.red} />
           <button className={styles.yellow} />
           <button className={styles.green} />
         </div>
         <div className={styles.logo}>
-          <a className={styles.anchor} href="/">
-            <span className={styles.blogPoint}>{title} </span>
-            ⎯⎯⎯⎯ ddojung.blog
-          </a>
+          <span className={styles.blogPoint}>{title} </span>
+          ⎯⎯⎯⎯ ddojung.blog
         </div>
         <div className={styles.userInfoDiv}>
           {message} {btnSign}

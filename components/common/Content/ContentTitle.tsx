@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './style.css';
 
-const ContentTitle: React.SFC<{ title: string }> = ({ title }) => {
+const ContentTitle: React.FC<{ title: string }> = ({ title }) => {
   return (
     <div className={styles.contentTitleBox}>
       <div className={styles.titleBox}>
