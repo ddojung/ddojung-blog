@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "next start",
+    "start": "node Server.js",
     "build": "next build",
-    "develop": "next",
-    "now-build": "next build",
-    "server": "ts-node Server.ts"
+    "develop": "ts-node Server.ts",
+    "now-build": "next build"
   },
   "dependencies": {
     "@types/uuid": "^3.4.4",
