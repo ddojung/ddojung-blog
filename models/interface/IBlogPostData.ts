@@ -3,5 +3,4 @@ export interface IBlogPostData {
   title: string;
   subTitle: string;
   contents: string;
-  createAt: string;
 }

@@ -18,7 +18,11 @@ const EditorPage: NextFC<IMenuTitle> = ({ title }) => {
 };
 
 EditorPage.getInitialProps = async () => {
-  return await BlogPost.getPosts();
+  if (process.browser) {
+    return await BlogPost.getPosts();
+  }
+
+  return await BlogPost.getPostsUsingREST();
 };
 
 export default EditorPage;

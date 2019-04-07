@@ -8,3 +8,8 @@ declare namespace NodeJS {
     browser: boolean;
   }
 }
+
+declare module 'firestore-parser' {
+  const parse: <T>(val: T) => T;
+  export = parse;
+}

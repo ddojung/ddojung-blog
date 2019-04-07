@@ -2,7 +2,6 @@ import * as uuid from 'uuid';
 
 import { EN_MENU_TYPE } from '../models/enum/EN_MENU_TYPE';
 import autobind from 'autobind-decorator';
-import { DateTime } from 'luxon';
 import { db } from '../lib/database';
 import { IBlogPostData } from '../models/interface/IBlogPostData';
 
@@ -21,7 +20,6 @@ class EditorStoreType {
       title: this.title,
       subTitle: this.subTitle,
       contents: this.quillHtml,
-      createAt: DateTime.local().toISO(),
     });
 
     if (setResult) {
