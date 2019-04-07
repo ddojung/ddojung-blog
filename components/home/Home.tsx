@@ -13,7 +13,7 @@ function moveBlogRepasitory(e: React.MouseEvent<HTMLImageElement, MouseEvent>) {
 const Home: React.FC = () => {
   return (
     <main>
-      <BlogPostTitle title={'What is This Blog?'} subTitle={'ddojung blog'} />
+      <BlogPostTitle title={'What is This Blog?'} subTitle={'ddojung blog'} isHiddenBtn={true} />
       <BlogPostContent>
         <p>먹을 걸 좋아하는 주니어 개발자의 개발공부 블로그</p>
         히스토리는 github ☞

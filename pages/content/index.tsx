@@ -1,4 +1,5 @@
 import React from 'react';
+import Error from 'next/error';
 
 import { NextFC, NextContext } from 'next';
 import Container from '../../components/common/Container';
@@ -17,8 +18,8 @@ interface IContentPageProps {
 }
 
 const ContentPage: NextFC<IContentPageProps> = ({ menu, content, extension }) => {
-  if (!menu) {
-    return <></>;
+  if (!menu || !content) {
+    return <Error statusCode={404} />;
   }
 
   MenuStore.MenuTitle = menu && menu.title;

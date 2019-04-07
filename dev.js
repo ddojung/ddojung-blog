@@ -18,6 +18,10 @@ app.prepare().then(() => {
     return app.render(req, res, '/content', { id: req.params.id });
   });
 
+  server.get('/editor/:collection/:doc', (req, res) => {
+    return app.render(req, res, '/editor', { collection: req.params.collection, doc: req.params.doc });
+  });
+
   server.get('*', (req, res) => {
     return handle(req, res);
   });

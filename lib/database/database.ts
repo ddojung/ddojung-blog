@@ -23,6 +23,22 @@ export async function setPost<T>(collection: string, doc: string, data: T): Prom
   return result;
 }
 
+export async function delPost(collection: string, doc: string): Promise<boolean> {
+  const result = await instanceF().then(firestore => {
+    return firestore
+      .collection(collection)
+      .doc(doc)
+      .delete()
+      .then(() => true)
+      .catch(err => {
+        console.error(err);
+        return false;
+      });
+  });
+
+  return result;
+}
+
 export async function getPost<T>(collection: string, doc: string): Promise<T | Error> {
   const result = await instanceF().then(firestore => {
     return firestore

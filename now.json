@@ -12,6 +12,10 @@
     {
       "src": "/(programming|food|chat)/(.*)",
       "dest": "/content"
+    },
+    {
+      "src": "/editor/(programming|food|chat)/(.*)",
+      "dest": "/editor"
     }
   ]
 }
