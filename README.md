@@ -17,3 +17,5 @@
 ### 사용도구
 * Firebase(DB + Storage) + Now
 * React.js + Mobx + Typescript
+
+thanks to [@alattalatta](https://github.com/alattalatta)
