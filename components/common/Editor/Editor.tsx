@@ -47,7 +47,7 @@ function handleQuillInput(content: string) {
   EditorStore.quillHtml = content;
 }
 
-const Editor: React.FC<{ editData: IBlogPostData | null }> = ({ editData }) => {
+const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> = ({ editData, type }) => {
   if (editData) {
     EditorStore.quillHtml = editData.contents;
     EditorStore.subTitle = editData.subTitle;
@@ -67,7 +67,7 @@ const Editor: React.FC<{ editData: IBlogPostData | null }> = ({ editData }) => {
   return (
     <main className={styles.mainContainer}>
       <div className={styles.titleBox}>
-        <select name="type" onChange={handleMenuTypeSelect}>
+        <select name="type" onChange={handleMenuTypeSelect} defaultValue={type}>
           {options}
         </select>
         <input type="text" defaultValue={EditorStore.title} onChange={handleTitleInput} placeholder="타이틀" />

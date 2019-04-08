@@ -11,7 +11,7 @@ export async function setPost<T>(collection: string, doc: string, data: T): Prom
   const result = await instanceF().then(firestore => {
     return firestore
       .collection(collection)
-      .doc(doc)
+      .doc(decodeURI(doc))
       .set(data, { merge: true })
       .then(() => true)
       .catch(err => {
@@ -27,7 +27,7 @@ export async function delPost(collection: string, doc: string): Promise<boolean>
   const result = await instanceF().then(firestore => {
     return firestore
       .collection(collection)
-      .doc(doc)
+      .doc(decodeURI(doc))
       .delete()
       .then(() => true)
       .catch(err => {

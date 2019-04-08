@@ -3,6 +3,7 @@ import * as React from 'react';
 import styles from './style.css';
 import { observer } from 'mobx-react-lite';
 import { EditorStore } from '../../stores/EditorStore';
+import { AuthStore } from '../../stores/AuthStore';
 
 interface BlogPostTitleProps {
   title: string;
@@ -30,14 +31,17 @@ async function del() {
 }
 
 const BlogPostTitle: React.FC<BlogPostTitleProps> = ({ title, subTitle, isHiddenBtn }) => {
+  const authStore = React.useContext(AuthStore);
+
   return (
     <div className={styles.titleBox}>
-      {isHiddenBtn || (
-        <div className={styles.titleBtnBox}>
-          <button onClick={edit}>edit</button>
-          <button onClick={del}>delete</button>
-        </div>
-      )}
+      {isHiddenBtn ||
+        (authStore.IsAdmin && (
+          <div className={styles.titleBtnBox}>
+            <button onClick={edit}>edit</button>
+            <button onClick={del}>delete</button>
+          </div>
+        ))}
       <span className={styles.mainTitle}>{title}</span>
       {subTitle && <span className={styles.subTitle}>{' - ' + subTitle}</span>}
     </div>

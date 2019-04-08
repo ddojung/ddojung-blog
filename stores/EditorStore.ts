@@ -32,25 +32,27 @@ class EditorStoreType {
 
   @autobind
   async edit() {
-    const type = this.type.toLowerCase();
-    const [random] = uuid.v4().split('-');
-    const id = this.title.trim().replace(/\s/g, '-') + '-' + random;
+    const [, , originType, originID] = location.pathname.split('/');
 
-    const [, , delType, delID] = location.pathname.split('/');
+    if (originType !== this.type.toLowerCase()) {
+      const delResult = await db.delPost(originType, originID);
 
-    const delResult = await db.delPost(delType, delID);
-
-    if (delResult) {
-      const setResult = await db.setPost<IBlogPostData>(type, id, {
-        id,
-        title: this.title.trim(),
-        subTitle: this.subTitle.trim(),
-        contents: this.quillHtml,
-      });
-
-      if (setResult) {
-        location.href = '/';
+      if (delResult) {
+        this.post();
       }
+
+      return;
+    }
+
+    const setResult = await db.setPost<IBlogPostData>(originType, originID, {
+      id: originID,
+      title: this.title.trim(),
+      subTitle: this.subTitle.trim(),
+      contents: this.quillHtml,
+    });
+
+    if (setResult) {
+      location.href = '/';
     }
 
     return;
@@ -58,9 +60,11 @@ class EditorStoreType {
 
   @autobind
   async delete(collenction: string, doc: string) {
-    const setResult = await db.delPost(collenction, doc);
+    const delResult = await db.delPost(collenction, doc);
 
-    if (setResult) {
+    console.log(delResult);
+
+    if (delResult) {
       location.href = '/';
     }
 
