@@ -7,6 +7,7 @@
 .contentBodyBox {
   width: 100%;
   background: white;
+  overflow-y: auto;
 }
 
 .titleBox {

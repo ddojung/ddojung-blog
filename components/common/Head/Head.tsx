@@ -1,10 +1,14 @@
 import * as React from 'react';
+
 import Head from 'next/head';
+import ReactGA from 'react-ga';
 
 interface IHeadProps {
   title: string;
   icon?: boolean;
 }
+
+ReactGA.initialize('UA-138243475-1');
 
 const DdHead: React.FC<IHeadProps> = ({ title, icon }) => {
   return (

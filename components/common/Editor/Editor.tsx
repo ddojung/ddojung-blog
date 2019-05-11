@@ -26,6 +26,8 @@ const modules = {
       [{ font: [] }],
       [{ align: [] }],
 
+      ['formula', 'link', 'image'],
+
       ['clean'], // remove formatting button
     ],
   },
