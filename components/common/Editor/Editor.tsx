@@ -6,9 +6,10 @@ import { observer } from 'mobx-react-lite';
 import { EN_MENU_TYPE } from '../../../models/enum/EN_MENU_TYPE';
 import { EditorStore } from '../../../stores/EditorStore';
 import { IBlogPostData } from '../../../models/interface/IBlogPostData';
-
+import { storage } from '../../../lib/storage';
 // dynamic import: https://github.com/zeit/next.js/#dynamic-import
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+let imageRef: HTMLInputElement | null = null;
 const modules = {
   toolbar: {
     container: [
@@ -30,6 +31,14 @@ const modules = {
 
       ['clean'], // remove formatting button
     ],
+    handlers: {
+      image: () => {
+        if (imageRef === null) {
+          return;
+        }
+        imageRef.click();
+      },
+    },
   },
 };
 
@@ -60,6 +69,23 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
     return editData ? EditorStore.edit() : EditorStore.post();
   }
 
+  async function imageChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files === null) {
+      return;
+    }
+
+    const uploadImage = event.target.files[0];
+
+    const fileURI = await storage.fileUpload(uploadImage);
+
+    if (fileURI === null) {
+      return;
+    }
+
+    const imgTag = `<img width="500" src=${fileURI} />`;
+    EditorStore.quillHtml = EditorStore.quillHtml + imgTag;
+  }
+
   const options = Object.values(EN_MENU_TYPE).map(type => (
     <option key={type} value={type}>
       {type}
@@ -87,6 +113,13 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
       <div className={styles.buttonBox}>
         <button onClick={clickPost}>{'POST'}</button>
       </div>
+      <input
+        style={{ display: 'none' }}
+        ref={ref => (imageRef = ref)}
+        type="file"
+        accept="image/*"
+        onChange={imageChange}
+      />
     </main>
   );
 };

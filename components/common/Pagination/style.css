@@ -1,0 +1,33 @@
+.pagination {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0;
+  @nest & li {
+    display: flex;
+    list-style: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    @nest &:hover {
+      color: #aaa;
+    }
+  }
+  @nest & li a {
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    border: 1px solid #dee2e6;
+  }
+}
+
+.disabled {
+  color: #ccc !important;
+  @nest & a {
+    cursor: default;
+  }
+}
+
+.current {
+  background-color: #eee;
+  transition: background-color 0.3s;
+}
