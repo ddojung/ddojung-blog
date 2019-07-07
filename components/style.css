@@ -2,10 +2,32 @@
 @import 'react-quill/dist/quill.bubble.css';
 @import 'react-quill/dist/quill.core.css';
 
+@font-face {
+  font-family: 'nanum';
+  src: url('/static/font/NanumBarunGothic.ttf') format('truetype');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'nanum';
+  src: url('/static/font/NanumBarunGothicBold.ttf') format('truetype');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'nanum';
+  src: url('/static/font/NanumBarunGothicLight.ttf') format('truetype');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'nanum';
+  src: url('/static/font/NanumBarunGothicUltraLight.ttf') format('truetype');
+  font-weight: 100;
+}
+
 html,
 body,
 body > div:first-child {
   height: 100%;
+  user-select: none;
 }
 
 body {
@@ -15,4 +37,8 @@ body {
 body a {
   color: inherit;
   text-decoration: inherit;
+}
+
+body * {
+  font-family: 'nanum';
 }
