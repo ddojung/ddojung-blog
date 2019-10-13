@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { EN_MENU_TYPE } from '../../../models/enum/EN_MENU_TYPE';
 import { EditorStore } from '../../../stores/EditorStore';
 import { IBlogPostData } from '../../../models/interface/IBlogPostData';
-// import { storage } from '../../../lib/storage';
+import { storage } from '../../../lib/storage';
 import ToastEditor from 'tui-editor';
 
 function handleTitleInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -23,6 +23,8 @@ function handleMenuTypeSelect(event: React.ChangeEvent<HTMLSelectElement>) {
 const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> = ({ editData, type }) => {
   const toastEditorEl = React.useRef<HTMLDivElement>(null);
   const toastEditor = React.useRef<ToastEditor>();
+  const imageRef = React.useRef<HTMLInputElement>(null);
+  const [imageURI, setImageURI] = React.useState<string>('');
 
   React.useEffect(() => {
     import('tui-editor').then(editor => {
@@ -35,6 +37,10 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
         useCommandShortcut: true,
         exts: ['scrollSync', 'colorSyntax', 'uml', 'mark', 'table'],
       });
+      toastEditor.current
+        .getUI()
+        .getToolbar()
+        .removeItem(15);
     });
   }, []);
 
@@ -46,33 +52,28 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
   async function clickPost() {
     EditorStore.contents = toastEditor.current!.getHtml();
 
-    // const htmlObject = document.createElement('div');
-    // htmlObject.innerHTML = EditorStore.contents;
-
-    // const imgTags = htmlObject.getElementsByTagName('img');
-    // const byteImg = atob(imgTags[0].currentSrc.replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
-    // const arrBuf = new ArrayBuffer(byteImg.length);
-    // const intArr = new Uint8Array(arrBuf);
-
-    // Array(byteImg.length).forEach((_, idx) => {
-    //   intArr[idx] = byteImg.charCodeAt(idx);
-    // });
-
-    // const type = imgTags[0].currentSrc.split(';')[0].replace('data:', '');
-    // // const blob = new Blob([intArr], { type });
-
-    // console.log(imgTags);
-
-    // const img = new File([intArr], imgTags[0].alt, { type });
-    // const fileURI = await storage.fileUpload(img);
-
-    // if (fileURI === null) {
-    //   return;
-    // }
-
-    // console.log(fileURI);
-
     return editData ? EditorStore.edit() : EditorStore.post();
+  }
+
+  async function imageUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    if (!event.target.files || !event.target.files[0]) {
+      return;
+    }
+
+    const img = event.target.files[0];
+    const fileURI = await storage.fileUpload(img);
+
+    if (fileURI === null) {
+      return;
+    }
+
+    setImg(fileURI);
+  }
+
+  function setImg(uri: string) {
+    const imgTag = `<img src=${uri} />`;
+
+    toastEditor.current!.setHtml(toastEditor.current!.getHtml() + imgTag);
   }
 
   const options = Object.values(EN_MENU_TYPE).map(type => (
@@ -100,13 +101,9 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
       <div className={styles.buttonBox}>
         <button onClick={clickPost}>{'POST'}</button>
       </div>
-      {/* <input
-        style={{ display: 'none' }}
-        ref={ref => (imageRef = ref)}
-        type="file"
-        accept="image/*"
-        onChange={imageChange}
-      /> */}
+      <input ref={imageRef} type="file" accept="image/*" onChange={imageUpload} />
+      <input type="text" value={imageURI} placeholder="이미지 URI" onChange={e => setImageURI(e.target.value)} />
+      <button onClick={() => setImg(imageURI)}>OK</button>
     </main>
   );
 };
