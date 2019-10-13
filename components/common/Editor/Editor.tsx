@@ -1,46 +1,12 @@
 import * as React from 'react';
 
 import styles from './style.css';
-import dynamic from 'next/dynamic';
 import { observer } from 'mobx-react-lite';
 import { EN_MENU_TYPE } from '../../../models/enum/EN_MENU_TYPE';
 import { EditorStore } from '../../../stores/EditorStore';
 import { IBlogPostData } from '../../../models/interface/IBlogPostData';
-import { storage } from '../../../lib/storage';
-// dynamic import: https://github.com/zeit/next.js/#dynamic-import
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-let imageRef: HTMLInputElement | null = null;
-const modules = {
-  toolbar: {
-    container: [
-      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-      ['blockquote', 'code-block'],
-      [{ header: 1 }, { header: 2 }], // custom button values
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-
-      [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-      [{ font: [] }],
-      [{ align: [] }],
-
-      ['formula', 'link', 'image'],
-
-      ['clean'], // remove formatting button
-    ],
-    handlers: {
-      image: () => {
-        if (imageRef === null) {
-          return;
-        }
-        imageRef.click();
-      },
-    },
-  },
-};
+// import { storage } from '../../../lib/storage';
+import ToastEditor from 'tui-editor';
 
 function handleTitleInput(event: React.ChangeEvent<HTMLInputElement>) {
   EditorStore.title = event.target.value;
@@ -54,36 +20,59 @@ function handleMenuTypeSelect(event: React.ChangeEvent<HTMLSelectElement>) {
   EditorStore.type = event.target.value as EN_MENU_TYPE;
 }
 
-function handleQuillInput(content: string) {
-  EditorStore.quillHtml = content;
-}
-
 const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> = ({ editData, type }) => {
+  const toastEditorEl = React.useRef<HTMLDivElement>(null);
+  const toastEditor = React.useRef<ToastEditor>();
+
+  React.useEffect(() => {
+    import('tui-editor').then(editor => {
+      toastEditor.current = new editor.default({
+        el: toastEditorEl.current!,
+        initialValue: editData ? editData.contents : '',
+        previewStyle: 'tab',
+        height: '40rem',
+        initialEditType: 'wysiwyg',
+        useCommandShortcut: true,
+        exts: ['scrollSync', 'colorSyntax', 'uml', 'mark', 'table'],
+      });
+    });
+  }, []);
+
   if (editData) {
-    EditorStore.quillHtml = editData.contents;
     EditorStore.subTitle = editData.subTitle;
     EditorStore.title = editData.title;
   }
 
-  function clickPost() {
+  async function clickPost() {
+    EditorStore.contents = toastEditor.current!.getHtml();
+
+    // const htmlObject = document.createElement('div');
+    // htmlObject.innerHTML = EditorStore.contents;
+
+    // const imgTags = htmlObject.getElementsByTagName('img');
+    // const byteImg = atob(imgTags[0].currentSrc.replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+    // const arrBuf = new ArrayBuffer(byteImg.length);
+    // const intArr = new Uint8Array(arrBuf);
+
+    // Array(byteImg.length).forEach((_, idx) => {
+    //   intArr[idx] = byteImg.charCodeAt(idx);
+    // });
+
+    // const type = imgTags[0].currentSrc.split(';')[0].replace('data:', '');
+    // // const blob = new Blob([intArr], { type });
+
+    // console.log(imgTags);
+
+    // const img = new File([intArr], imgTags[0].alt, { type });
+    // const fileURI = await storage.fileUpload(img);
+
+    // if (fileURI === null) {
+    //   return;
+    // }
+
+    // console.log(fileURI);
+
     return editData ? EditorStore.edit() : EditorStore.post();
-  }
-
-  async function imageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.files === null) {
-      return;
-    }
-
-    const uploadImage = event.target.files[0];
-
-    const fileURI = await storage.fileUpload(uploadImage);
-
-    if (fileURI === null) {
-      return;
-    }
-
-    const imgTag = `<img width="500" src=${fileURI} />`;
-    EditorStore.quillHtml = EditorStore.quillHtml + imgTag;
   }
 
   const options = Object.values(EN_MENU_TYPE).map(type => (
@@ -107,19 +96,17 @@ const Editor: React.FC<{ editData: IBlogPostData | null; type: EN_MENU_TYPE }> =
           placeholder="서브타이틀"
         />
       </div>
-      <ReactQuill theme="snow" modules={modules} onChange={handleQuillInput} value={EditorStore.quillHtml}>
-        <div className={styles.contextBox} />
-      </ReactQuill>
+      <div ref={toastEditorEl} />
       <div className={styles.buttonBox}>
         <button onClick={clickPost}>{'POST'}</button>
       </div>
-      <input
+      {/* <input
         style={{ display: 'none' }}
         ref={ref => (imageRef = ref)}
         type="file"
         accept="image/*"
         onChange={imageChange}
-      />
+      /> */}
     </main>
   );
 };

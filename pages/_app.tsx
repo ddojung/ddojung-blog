@@ -5,11 +5,7 @@ import App, { Container } from 'next/app';
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }: any) {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     return { pageProps };
   }
@@ -19,6 +15,8 @@ export default class MyApp extends App {
 
     return (
       <Container>
+        <link rel="stylesheet" href="/static/media/tui-editor.css" />
+        <link rel="stylesheet" href="/static/media/tui-editor-contents.css" />
         <Component {...pageProps} />
       </Container>
     );

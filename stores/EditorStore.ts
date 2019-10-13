@@ -9,7 +9,7 @@ class EditorStoreType {
   public type: EN_MENU_TYPE = EN_MENU_TYPE.PROGRAMMING;
   public title: string = '';
   public subTitle: string = '';
-  public quillHtml: string = '';
+  public contents: string = '';
 
   @autobind
   async post() {
@@ -20,7 +20,7 @@ class EditorStoreType {
       id,
       title: this.title.trim(),
       subTitle: this.subTitle.trim(),
-      contents: this.quillHtml,
+      contents: this.contents,
     });
 
     if (setResult) {
@@ -48,7 +48,7 @@ class EditorStoreType {
       id: originID,
       title: this.title.trim(),
       subTitle: this.subTitle.trim(),
-      contents: this.quillHtml,
+      contents: this.contents,
     });
 
     if (setResult) {

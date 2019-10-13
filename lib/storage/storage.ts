@@ -7,7 +7,7 @@ const storageRef = firebase.storage().ref();
 export const fileUpload = async (file: File): Promise<string | null> => {
   try {
     const uploadFile = storageRef.child('blogImage/' + file.name);
-    uploadFile.put(file);
+    await uploadFile.put(file);
     const fileURI: string = await uploadFile.getDownloadURL();
 
     return fileURI;

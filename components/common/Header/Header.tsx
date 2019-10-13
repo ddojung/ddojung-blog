@@ -17,7 +17,6 @@ const Header: React.FC<IHeaderProps> = ({ title, icon }) => {
     title = 'unknown';
   }
 
-  const message = authStore.UserInfo === null ? '로그인해주세요.' : `${authStore.UserInfo.displayName}님 환영합니다.`;
   const btnSign = (() => {
     if (authStore.UserInfo === null) {
       return <button onClick={authStore.signIn}>Sign In</button>;
@@ -45,7 +44,7 @@ const Header: React.FC<IHeaderProps> = ({ title, icon }) => {
           ⎯⎯⎯⎯ ddojung.blog
         </div>
         <div className={styles.userInfoDiv}>
-          {message} {btnSign}
+          {btnSign}
         </div>
       </div>
     </div>
